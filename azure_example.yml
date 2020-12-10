@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /var/lib/awx/venv/ansible/bin/python3
+  roles:
+  - create_resource_group
+  - create_virtual_network
+  - create_linux_vm

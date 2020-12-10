@@ -1,0 +1,5 @@
+az_rg_name: ansible-azure
+az_location: uksouth
+az_network_name: ansible-network
+az_network_cidr: 192.168.0.0/24
+az_secgroup_name: ansible-demo-sg

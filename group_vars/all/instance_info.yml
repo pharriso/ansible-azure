@@ -1,0 +1,13 @@
+az_vm_size: Standard_B2ms
+az_vm_admin_user: pharriso
+instance_info:
+  rhel8:
+    offer: RHEL
+    publisher: RedHat
+    sku: '8.1'
+    version: latest
+  rhel8_sap:
+    offer: RHEL-SAP-HA
+    publisher: RedHat
+    sku: '8.2'
+    version: latest

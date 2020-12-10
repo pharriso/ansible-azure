@@ -1,0 +1,6 @@
+---
+- name: create resource group
+  azure_rm_resourcegroup:
+    name: "{{ az_rg_name }}"
+    location: "{{ az_location }}"
+  run_once: true
