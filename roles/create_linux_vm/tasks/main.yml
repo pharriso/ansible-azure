@@ -36,6 +36,7 @@
     image: "{{ instance_info[os] }}"
     tags:
       type: "cluster"
+    availability_set: "{{ az_availibility_set }}"
 
 - debug:
     msg: "{{ public_ip.state.ip_address }}"

@@ -1,5 +1,5 @@
 az_rg_name: ansible-azure
-availibility_set_name: ansible-availabilityset
+az_availibility_set: ansible-availabilityset
 az_location: uksouth
 az_network_name: ansible-network
 az_network_cidr: 192.168.0.0/24
