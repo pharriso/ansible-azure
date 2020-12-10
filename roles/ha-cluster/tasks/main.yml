@@ -40,7 +40,7 @@
 - name: auth nodes
   shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
-  no_log: false
+  no_log: true
 
 - name: auth nodes
   shell: pcs cluster setup --start --enable --name cluster1 {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
