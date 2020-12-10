@@ -1,0 +1,6 @@
+---
+
+- name: configure pcs cluster
+  hosts: all
+  roles:
+  - ha-cluster

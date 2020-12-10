@@ -1,0 +1,20 @@
+---
+
+- name: install pcs
+  yum:
+    state: installed
+    name: 
+    - pcs
+    - pacemaker
+    - fence-agents-all
+
+- name: set password for hacluster user
+  user:
+    name: "{{ pcs_user }}"
+    password: "{{ pcs_passwd }}"
+
+- name: start and enable pcsd
+  service:
+    name: pcsd
+    state: started
+    enabled: true
