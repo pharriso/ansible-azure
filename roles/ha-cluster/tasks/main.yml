@@ -6,6 +6,12 @@
     secondary_node: "{{ ansible_play_hosts[1] }}"
   run_once: true
 
+- name: add cluster members to /etc/hosts
+  lineinfile:
+    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
+    path: /etc/hosts
+  loop: "{{ ansible_play_hosts }}"
+
 - name: install pcs
   yum:
     state: installed
