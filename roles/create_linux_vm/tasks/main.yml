@@ -18,6 +18,9 @@
       - name: ipconfig1
         primary: True
         public_ip_address_name: "{{ az_vm_name }}-public"
+        load_balancer_backend_address_pools:
+        - name: backendaddrpool0
+          load_balancer: "{{ az_lb_name }}"
 
 - name: create vm
   azure_rm_virtualmachine:
@@ -31,6 +34,8 @@
       - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
         key_data: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
     image: "{{ instance_info[os] }}"
+    tags:
+      type: "cluster"
 
 - debug:
     msg: "{{ public_ip.state.ip_address }}"

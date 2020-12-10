@@ -4,3 +4,8 @@
     name: "{{ az_rg_name }}"
     location: "{{ az_location }}"
   run_once: true
+
+- name: create an availability set
+  azure_rm_availabilityset:
+    name: "{{ availability_set_name }}"
+    resource_group: "{{ az_rg_name }}"
