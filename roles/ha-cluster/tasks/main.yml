@@ -31,6 +31,12 @@
     state: started
     enabled: true
 
+- name: enable firewall rules
+  firewalld:
+    service: high-availability
+    state: enabled
+    permanent: yes
+
 - name: auth nodes
   shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
