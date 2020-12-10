@@ -35,3 +35,9 @@ secgroup_rules:
   access: Allow
   priority: 106
   direction: Inbound
+- name: internal
+  protocol: '*'
+  access: Allow
+  priority: 107
+  destination_port_range: '*'
+  destination_address_prefix: VirtualNetwork

@@ -8,7 +8,7 @@
 
 - name: add cluster members to /etc/hosts
   lineinfile:
-    line: "{{ hostvars[item][ansible_default_ipv4.address] }} {{ hostvars[item][ansible_fqdn] }} {{ hostvars[item][ansible_hostname] }}"
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ hostvars[item]['ansible_fqdn'] }} {{ hostvars[item]['ansible_hostname'] }}"
     path: /etc/hosts
   loop: "{{ ansible_play_hosts }}"
 
@@ -34,7 +34,7 @@
 - name: auth nodes
   shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
-  no_log: true
+  no_log: false
 
 - name: auth nodes
   shell: pcs cluster setup --start --enable --name cluster1 {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
