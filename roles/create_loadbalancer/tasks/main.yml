@@ -1,17 +1,25 @@
 ---
 
+- name: get subnet id
+  azure_rm_subnet_info:
+    resource_group: "{{ az_rg_name }}"
+    virtual_network_name: "{{ az_network_name }}"
+    name: "{{ az_network_name }}-subnet"
+  register: subnet
+
 - name: create load balancer
   azure_rm_loadbalancer:
     resource_group: "{{ az_rg_name }}"
     name: "{{ az_lb_name }}"
     frontend_ip_configurations:
       - name: frontendipconf0
-        public_ip_address: ansible-loadbalancer-public
+        private_ip_allocation_method: Dynamic
+        subnet: "{{ subnet.subnets[0].id }}"
     backend_address_pools:
       - name: backendaddrpool0
     probes:
       - name: prob0
-        port: 80
+        port: 61000
     load_balancing_rules:
       - name: lbrbalancingrule0
         frontend_ip_configuration: frontendipconf0
@@ -19,3 +27,4 @@
         frontend_port: 80
         backend_port: 80
         probe: prob0
+        enable_floating_ip: true
