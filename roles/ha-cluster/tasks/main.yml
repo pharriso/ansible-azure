@@ -48,9 +48,9 @@
   shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
   no_log: false
-  when: existing_cluster.stat.exists
+  when: not existing_cluster.stat.exists
 
 - name: create cluster
   shell: pcs cluster setup --start --enable cluster1 {{ primary_node }} {{ secondary_node }}
   delegate_to: "{{ primary_node }}"
-  when: existing_cluster.stat.exists
+  when: not existing_cluster.stat.exists
