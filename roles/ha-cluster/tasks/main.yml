@@ -23,7 +23,7 @@
 - name: set password for hacluster user
   user:
     name: "{{ pcs_user }}"
-    password: "{{ pcs_passwd | password_hash('sha512') }}"
+    password: "{{ pcs_passwd | password_hash('sha512', mysalt) }}"
 
 - name: start and enable pcsd
   service:
