@@ -8,7 +8,7 @@
 
 - name: add cluster members to /etc/hosts
   lineinfile:
-    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
+    line: "{{ hostvars[item][ansible_default_ipv4.address] }} {{ hostvars[item][ansible_fqdn] }} {{ hostvars[item][ansible_hostname] }}"
     path: /etc/hosts
   loop: "{{ ansible_play_hosts }}"
 
