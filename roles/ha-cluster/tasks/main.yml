@@ -1,5 +1,11 @@
 ---
 
+- name: set facts for cluster members
+  set_fact:
+    primary_node: "{{ ansible_play_hosts[0] }}"
+    secondary_node: "{{ ansible_play_hosts[1] }}"
+  run_once: true
+
 - name: install pcs
   yum:
     state: installed
@@ -11,10 +17,16 @@
 - name: set password for hacluster user
   user:
     name: "{{ pcs_user }}"
-    password: "{{ pcs_passwd }}"
+    password: "{{ pcs_passwd | password_hash('sha512') }}"
 
 - name: start and enable pcsd
   service:
     name: pcsd
     state: started
     enabled: true
+
+- name: auth nodes
+  shell: pcs cluster auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
+
+- name: auth nodes
+  shell: pcs cluster setup --start --enable --name cluster1 {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
