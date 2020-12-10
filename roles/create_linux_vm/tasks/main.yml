@@ -32,7 +32,7 @@
     ssh_password_enabled: false
     ssh_public_keys:
       - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
-        key_data: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        key_data: "{{ lookup('file', 'files/id_rsa.pub') }}"
     image: "{{ instance_info[os] }}"
     tags:
       type: "cluster"
