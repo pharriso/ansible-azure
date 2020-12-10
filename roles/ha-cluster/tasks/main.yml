@@ -27,6 +27,8 @@
 
 - name: auth nodes
   shell: pcs cluster auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
+  delegate_to: "{{ {{ primary_node }}"
 
 - name: auth nodes
   shell: pcs cluster setup --start --enable --name cluster1 {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} {{ pcs_passwd }}
+  delegate_to: "{{ {{ primary_node }}"
