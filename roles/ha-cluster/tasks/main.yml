@@ -32,7 +32,7 @@
     enabled: true
 
 - name: auth nodes
-  shell: pcs cluster auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
+  shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
   no_log: true
 
