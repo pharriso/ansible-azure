@@ -1,5 +1,10 @@
 ---
 
+- name: disable stonith 
+  shell: pcs property set stonith-enabled=false 
+  delegate_to: "{{ primary_node }}"
+  run_once: true
+
 - name: create vip resource
   shell: pcs resource create vip IPaddr2 ip={{ cluster_vip }} --group my-app
   register: pcs_resource
