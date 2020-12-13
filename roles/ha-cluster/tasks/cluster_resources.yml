@@ -1,6 +1,7 @@
 ---
+
 - name: create vip resource
-  shell: pcs resource create vip IPaddr2 ip=192.168.0.5 --group my-app
+  shell: pcs resource create vip IPaddr2 ip={{ cluster_vip }} --group my-app
   register: pcs_resource
   failed_when: "'already exists' not in pcs_resource.stderr"
   delegate_to: "{{ primary_node }}"

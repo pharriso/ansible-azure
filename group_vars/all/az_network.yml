@@ -5,3 +5,4 @@ az_network_name: ansible-network
 az_network_cidr: 192.168.0.0/24
 az_secgroup_name: ansible-demo-sg
 az_lb_name: ansible-loadbalancer
+cluster_vip: 192.168.0.4
