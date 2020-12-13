@@ -17,7 +17,7 @@
       groups:
       - new_vm   
 
-- name: create linux vm
+- name: deploy pcsd gui to vm
   hosts: new_vm
   remote_user: pharriso
   become: true

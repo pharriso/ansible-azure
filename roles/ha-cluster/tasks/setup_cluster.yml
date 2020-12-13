@@ -7,9 +7,9 @@
   delegate_to: "{{ primary_node }}"
 
 - name: auth nodes
-  shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }} --group myapp
+  shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }}
   delegate_to: "{{ primary_node }}"
-  no_log: false
+  no_log: true
   when: not existing_cluster.stat.exists
   run_once: true
 
