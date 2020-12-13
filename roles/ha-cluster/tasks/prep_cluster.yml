@@ -1,0 +1,39 @@
+---
+
+- name: set facts for cluster members
+  set_fact:
+    primary_node: "{{ ansible_play_hosts[0] }}"
+    secondary_node: "{{ ansible_play_hosts[1] }}"
+  run_once: true
+
+- name: add cluster members to /etc/hosts
+  lineinfile:
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ hostvars[item]['ansible_fqdn'] }} {{ hostvars[item]['ansible_hostname'] }}"
+    path: /etc/hosts
+  loop: "{{ ansible_play_hosts }}"
+
+- name: install pcs
+  yum:
+    state: installed
+    name: 
+    - pcs
+    - pacemaker
+    - fence-agents-all
+
+- name: set password for hacluster user
+  user:
+    name: "{{ pcs_user }}"
+    password: "{{ pcs_passwd | password_hash('sha512', 'mysalt') }}"
+
+- name: start and enable pcsd
+  service:
+    name: pcsd
+    state: started
+    enabled: true
+
+- name: enable firewall rules
+  firewalld:
+    service: high-availability
+    state: enabled
+    permanent: yes
+    immediate: yes

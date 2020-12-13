@@ -1,0 +1,18 @@
+---
+
+- name: install apache on rhel
+  yum:
+    name: httpd
+    state: installed
+
+- name: open firewall ports for httpd
+  firewalld:
+    port: 80/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: configure web content
+  template:
+    dest: /var/www/html/index.html
+    src: index.html.j2

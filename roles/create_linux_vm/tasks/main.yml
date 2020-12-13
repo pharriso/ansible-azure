@@ -34,8 +34,6 @@
       - path: /home/{{ az_vm_admin_user }}/.ssh/authorized_keys
         key_data: "{{ lookup('file', 'files/id_rsa.pub') }}"
     image: "{{ instance_info[os] }}"
-    tags:
-      type: "cluster"
     availability_set: "{{ az_availibility_set }}"
 
 - debug:
@@ -45,4 +43,4 @@
   wait_for:
     host: "{{ public_ip.state.ip_address }}"
     port: "{{ port | default(22) }}"
-    delay: 10
+    delay: 5

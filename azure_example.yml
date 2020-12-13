@@ -1,11 +1,52 @@
 ---
 
-- hosts: localhost
+- name: create linux vm
+  hosts: localhost
   connection: local
   gather_facts: false
   vars:
     ansible_python_interpreter: /var/lib/awx/venv/ansible/bin/python3
   roles:
-  - create_resource_group
   - create_virtual_network
   - create_linux_vm
+
+  post_tasks:
+  - name: add new vm into the play
+    add_host:
+      name: "{{ public_ip.state.ip_address }}"
+      groups:
+      - new_vm   
+
+- name: create linux vm
+  hosts: new_vm
+  remote_user: pharriso
+  become: true
+  tasks:
+  - name: create random password
+    debug:
+      msg: "{{ lookup('password', '~/hacluster_password chars=ascii_letters') }}"
+    register: password
+    delegate_to: localhost
+
+  - name: install pcs
+    yum:
+      name: pcs
+      state: installed
+
+  - name: start pcsd service
+    service:
+      name: pcsd
+      state: started
+      enabled: yes
+
+  - name: enable firewall rules
+    firewalld:
+      service: high-availability
+      state: enabled
+      permanent: yes
+      immediate: yes
+
+  - name: set password for hacluster user
+    user:
+      name: hacluster
+      password: "{{ lookup('file', '~/hacluster_password') | password_hash('sha512', 'mysalt') }}"

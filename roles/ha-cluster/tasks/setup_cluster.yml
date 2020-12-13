@@ -1,0 +1,20 @@
+---
+
+- name: check if cluster configuration already exists
+  stat:
+    path: /var/lib/pacemaker/cib/cib.xml
+  register: existing_cluster
+  delegate_to: "{{ primary_node }}"
+
+- name: auth nodes
+  shell: pcs host auth {{ primary_node }} {{ secondary_node }} -u {{ pcs_user }} -p {{ pcs_passwd }} --group myapp
+  delegate_to: "{{ primary_node }}"
+  no_log: false
+  when: not existing_cluster.stat.exists
+  run_once: true
+
+- name: create cluster
+  shell: pcs cluster setup --start --enable cluster1 {{ primary_node }} {{ secondary_node }}
+  delegate_to: "{{ primary_node }}"
+  when: not existing_cluster.stat.exists
+  run_once: true

@@ -1,0 +1,19 @@
+---
+- name: create vip resource
+  shell: pcs resource create vip IPaddr2 ip=192.168.0.5 --group my-app
+  register: pcs_resource
+  failed_when: "'already exists' not in pcs_resource.stderr"
+  delegate_to: "{{ primary_node }}"
+  run_once: true
+
+- name: create azure lb resource
+  shell: pcs resource create azure-lb azure-lb port=61000 --group my-app
+  failed_when: "'already exists' not in pcs_resource.stderr"
+  delegate_to: "{{ primary_node }}"
+  run_once: true
+
+- name: create app resource
+  shell: pcs resource create apache systemd:httpd --group my-app
+  failed_when: "'already exists' not in pcs_resource.stderr"
+  delegate_to: "{{ primary_node }}"
+  run_once: true

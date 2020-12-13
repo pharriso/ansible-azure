@@ -41,3 +41,9 @@ secgroup_rules:
   priority: 107
   destination_port_range: '*'
   destination_address_prefix: VirtualNetwork
+- name: pcsd
+  protocol: Tcp
+  destination_port_range: 2224
+  access: Allow
+  priority: 108
+  direction: Inbound
