@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  connection: winrm
+  vars:
+    ansible_winrm_server_cert_validation: ignore
+    ansible_winrm_transport: basic
+  tasks:
+  - name: create domain
+    ansible.windows.win_domain:
+      dns_domain_name: ansible.local
+      safe_mode_password: 

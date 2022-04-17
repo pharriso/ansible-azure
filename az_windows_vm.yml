@@ -1,0 +1,86 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Create security group
+    azure_rm_securitygroup:
+      resource_group: ansible
+      name: ansible-nsg
+      rules:
+      - name: ssh
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 101
+        direction: Inbound
+      - name: web
+        protocol: Tcp
+        destination_port_range: 80
+        access: Allow
+        priority: 102
+        direction: Inbound
+      - name: winrm
+        protocol: Tcp
+        destination_port_range: 5986
+        access: Allow
+        priority: 103
+        direction: Inbound
+      - name: rdp
+        protocol: Tcp
+        destination_port_range: 3389
+        access: Allow
+        priority: 104
+        direction: Inbound
+      - name: https
+        protocol: Tcp
+        destination_port_range: 443
+        access: Allow
+        priority: 106
+        direction: Inbound
+
+  - name: Create public ip
+    azure_rm_publicipaddress:
+      resource_group: ansible
+      allocation_method: Static
+      name: dc1-public
+    register: public_ip
+
+  - name: Create VM nic
+    azure_rm_networkinterface:
+      resource_group: ansible
+      name: dc1-nic
+      virtual_network: ansible-vnet
+      subnet: default
+      security_group: ansible-nsg
+      ip_configurations:
+      - name: ipconfig1
+        primary: True
+        public_ip_address_name: dc1-public
+
+  - name: provision new Azure virtual host
+    azure_rm_virtualmachine:
+      admin_username: pharriso
+      admin_password: 
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: 2016-Datacenter
+        version: latest
+      name: dc1
+      resource_group: ansible
+      state: present
+      vm_size: Standard_D2s_v3
+      network_interfaces: dc1-nic
+
+  - name: create Azure vm extension to enable HTTPS WinRM listener
+    azure_rm_virtualmachineextension:
+      name: winrm-extension
+      resource_group: ansible
+      virtual_machine_name: dc1
+      publisher: Microsoft.Compute
+      virtual_machine_extension_type: CustomScriptExtension
+      type_handler_version: 1.9
+      settings: '{"commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File CustomScript.ps1 -ForceNewSSLCert -EnableCredSSP", "fileUris": ["https://raw.githubusercontent.com/pharriso/ansible-azure-demo/master/roles/create_windows_vm/files/CustomScript.ps1"]}'
+      auto_upgrade_minor_version: true

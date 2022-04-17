@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  connection: winrm
+  vars:
+    ansible_winrm_server_cert_validation: ignore
+    ansible_winrm_transport: basic
+  tasks:
+  - name: Get Reg Key Value for RDP
+    win_reg_stat:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+      name: UserAuthentication
+
+  - name: Allow RDP connections without network level authentication
+    win_regedit:
+      path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+      name: UserAuthentication
+      data: 0

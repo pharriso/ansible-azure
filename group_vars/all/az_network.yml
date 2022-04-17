@@ -1,8 +1,9 @@
-az_rg_name: ansible-azure
+az_rg_name: ansible
 az_availibility_set: ansible-availabilityset
 az_location: uksouth
-az_network_name: ansible-network
-az_network_cidr: 192.168.0.0/24
-az_secgroup_name: ansible-demo-sg
+az_network_name: ansible-vnet
+az_network_cidr: 10.0.0.0/16
+az_subnet_cidr: 10.0.0.0/24
+az_subnet_name: default
+az_secgroup_name: ansible-nsg
 az_lb_name: ansible-loadbalancer
-cluster_vip: 192.168.0.4

@@ -4,4 +4,4 @@
   connection: local
   gather_facts: false
   roles:
-  - create_linux_vm
+  - pharriso.azure.azure_linux_vm
