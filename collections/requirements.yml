@@ -7,4 +7,4 @@ collections:
 - name: azure.azcollection
 - name: pharriso.windows
 - name: pharriso.azure
-
+- name: pharriso.config_mgmt
