@@ -1,0 +1,5 @@
+---
+
+- hosts: all
+  roles:
+  - pharriso.config_mgmt.domain_join
