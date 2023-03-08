@@ -47,3 +47,9 @@ secgroup_rules:
   access: Allow
   priority: 108
   direction: Inbound
+- name: postgresql
+  protocol: Tcp
+  destination_port_range: 5432
+  access: Allow
+  priority: 109
+  direction: Inbound
