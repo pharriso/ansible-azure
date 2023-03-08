@@ -4,7 +4,7 @@ instance_info:
   rhel8:
     offer: RHEL
     publisher: RedHat
-    sku: '8.1'
+    sku: '8.6'
     version: latest
   rhel8_sap:
     offer: RHEL-SAP-HA
