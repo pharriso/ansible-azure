@@ -3,5 +3,5 @@
 - hosts: localhost
   gather_facts: false
   roles:
-  - azure_resource_group
-  - azure_virtual_network
+  - pharriso.azure.azure_resource_group
+  - pharriso.azure.azure_virtual_network
